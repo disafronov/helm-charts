@@ -90,3 +90,6 @@ readinessProbe: {}
 
 # Environment variables
 env: {}
+
+# Init Containers
+initContainers: []

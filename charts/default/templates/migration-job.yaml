@@ -1,0 +1,56 @@
+{{- if and .Values.migration .Values.migration.enabled }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "default.migration-job-name" . }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    # "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  {{- if .Values.migration.backoffLimit }}
+  backoffLimit: {{ .Values.migration.backoffLimit }}
+  {{- end }}
+  {{- if .Values.migration.activeDeadlineSeconds }}
+  activeDeadlineSeconds: {{ .Values.migration.activeDeadlineSeconds }}
+  {{- end }}
+  {{- if .Values.migration.ttlSecondsAfterFinished }}
+  ttlSecondsAfterFinished: {{ .Values.migration.ttlSecondsAfterFinished }}
+  {{- end }}
+  template:
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        {{- if .Values.migration.image }}
+        image: "{{ .Values.migration.image.repository | default .Values.image.repository }}:{{ .Values.migration.image.tag | default .Values.image.tag | default .Chart.AppVersion }}"
+        {{- else }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        {{- end }}
+        {{- with .Values.migration.command }}
+        command:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.migration.args }}
+        args:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- if .Values.migration.env }}
+        env:
+        {{- range $k, $v := .Values.migration.env }}
+          - name: {{ $k | trim }}
+            value: {{ $v | trim | quote }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.migration.resources }}
+        resources:
+          {{- toYaml .Values.migration.resources | nindent 10 }}
+        {{- end }}
+      {{- with .Values.migration.sidecars }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+      restartPolicy: Never
+{{- end }}
