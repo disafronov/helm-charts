@@ -1,0 +1,96 @@
+{{- if and .Values.sidekiq (.Values.sidekiq.enabled | default false) }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "rails-app.name.sidekiq" . }}
+  labels:
+    {{- include "rails-app.labels.sidekiq" . | nindent 4 }}
+spec:
+  replicas: 1
+  {{- if .Values.sidekiq.deployStrategy }}
+  strategy:
+    type: {{ .Values.sidekiq.deployStrategy }}
+    {{- if eq .Values.sidekiq.deployStrategy "RollingUpdate" }}
+    rollingUpdate:
+      maxSurge: {{ default 0 .Values.sidekiq.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ default 1 .Values.sidekiq.rollingUpdate.maxUnavailable }}
+    {{- end }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "rails-app.selectorLabels.sidekiq" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.sidekiq.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "rails-app.selectorLabels.sidekiq" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "rails-app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.sidekiq.podSecurityContext | nindent 8 }}
+      {{- with .Values.sidekiq.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.sidekiq.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.sidekiq.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.sidekiq.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.sidekiq.containerPort | default "80" }}
+              protocol: TCP
+          {{- with .Values.sidekiq.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.sidekiq.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.sidekiq.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.env }}
+          env:
+          {{- range $k, $v := .Values.env }}
+            - name: {{ $k | trim }}
+              value: {{ $v | trim | quote }}
+          {{- end }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.sidekiq.resources | nindent 12 }}
+        {{- with .Values.sidekiq.sidecars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.sidekiq.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sidekiq.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sidekiq.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
