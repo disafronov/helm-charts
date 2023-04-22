@@ -45,7 +45,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.command }}
           command:
@@ -57,7 +57,7 @@ spec:
           {{- end }}
           ports:
             - name: http
-              containerPort: {{ .Values.containerPort | default "80" }}
+              containerPort: {{ default 80 .Values.containerPort }}
               protocol: TCP
           {{- with .Values.startupProbe }}
           startupProbe:
@@ -80,6 +80,9 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
         {{- with .Values.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -95,4 +98,8 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: {{ default "1Gi" .Values.tmpSize }}
 {{- end }}

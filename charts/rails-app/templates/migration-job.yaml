@@ -26,7 +26,7 @@ spec:
       containers:
       - name: {{ .Chart.Name }}
         {{- if .Values.migration.image }}
-        image: "{{ .Values.migration.image.repository | default .Values.image.repository }}:{{ .Values.migration.image.tag | default .Values.image.tag | default .Chart.AppVersion }}"
+        image: "{{ default .Values.image.repository .Values.migration.image.repository }}:{{ default .Chart.AppVersion default .Values.image.tag .Values.migration.image.tag }}"
         {{- else }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         {{- end }}

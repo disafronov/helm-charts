@@ -1,4 +1,4 @@
-{{- if and .Values.sidekiq (.Values.sidekiq.enabled | default false) }}
+{{- if and .Values.sidekiq (default false .Values.sidekiq.enabled) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -43,7 +43,11 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.sidekiq.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{- if .Values.sidekiq.image }}
+          image: "{{ default .Values.image.repository .Values.sidekiq.image.repository }}:{{ default .Chart.AppVersion default .Values.image.tag .Values.sidekiq.image.tag }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.sidekiq.command }}
           command:
@@ -55,7 +59,7 @@ spec:
           {{- end }}
           ports:
             - name: http
-              containerPort: {{ .Values.sidekiq.containerPort | default "80" }}
+              containerPort: {{ default 80 .Values.sidekiq.containerPort }}
               protocol: TCP
           {{- with .Values.sidekiq.startupProbe }}
           startupProbe:
@@ -76,8 +80,17 @@ spec:
               value: {{ $v | trim | quote }}
           {{- end }}
           {{- end }}
+          {{- if .Values.sidekiq.env }}
+          {{- range $l, $w := .Values.migration.env }}
+            - name: {{ $l | trim }}
+              value: {{ $w | trim | quote }}
+          {{- end }}
+          {{- end }}
           resources:
             {{- toYaml .Values.sidekiq.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
         {{- with .Values.sidekiq.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -93,4 +106,8 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: {{ default "1Gi" .Values.tmpSize }}
 {{- end }}
