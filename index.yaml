@@ -24,6 +24,16 @@ entries:
   rails-app:
   - apiVersion: v2
     appVersion: latest
+    created: "2023-04-22T17:59:03.018900764Z"
+    description: A Helm chart for Kubernetes
+    digest: 61eedff37c9028175eb915157bb149a9825e0ff7f63349752663cf6bd0c48337
+    name: rails-app
+    type: application
+    urls:
+    - https://github.com/DmitriySafronov/helm-charts/releases/download/rails-app-0.1.0/rails-app-0.1.0.tgz
+    version: 0.1.0
+  - apiVersion: v2
+    appVersion: latest
     created: "2022-11-16T17:10:03.122937386Z"
     description: A Helm chart for Kubernetes
     digest: f90b7cccc5a9e4013e943247df8b747a2bc282a58d62c1b5f93e07fcacabc115
