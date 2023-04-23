@@ -3,6 +3,16 @@ entries:
   default:
   - apiVersion: v2
     appVersion: latest
+    created: "2023-04-23T20:12:07.08515843Z"
+    description: A Helm chart for Kubernetes
+    digest: 81d909d8c14783c7e3f078055704a17eecfadf9f4d89ae9c1c03fdf37123423d
+    name: default
+    type: application
+    urls:
+    - https://github.com/DmitriySafronov/helm-charts/releases/download/default-0.3.0/default-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: latest
     created: "2022-11-16T08:09:37.460263033Z"
     description: A Helm chart for Kubernetes
     digest: fafeedeed002eff7c0443c84b1cb2e2be138c1b5e3a80aa01de3cd410f2a955f
@@ -22,6 +32,16 @@ entries:
     - https://github.com/DmitriySafronov/helm-charts/releases/download/default-0.1.1/default-0.1.1.tgz
     version: 0.1.1
   rails-app:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2023-04-23T20:12:07.199411128Z"
+    description: A Helm chart for Kubernetes
+    digest: aadc4d1715866eaa8099f51b3dd357b92ba698b55897ec02dbe42e695d81fea0
+    name: rails-app
+    type: application
+    urls:
+    - https://github.com/DmitriySafronov/helm-charts/releases/download/rails-app-0.1.1/rails-app-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     appVersion: latest
     created: "2023-04-22T17:59:03.018900764Z"
