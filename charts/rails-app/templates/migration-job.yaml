@@ -28,7 +28,7 @@ spec:
         {{- if .Values.migration.image }}
         image: "{{ default .Values.image.repository .Values.migration.image.repository }}:{{ default .Chart.AppVersion default .Values.image.tag .Values.migration.image.tag }}"
         {{- else }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
         {{- end }}
         {{- with .Values.migration.command }}
         command:
