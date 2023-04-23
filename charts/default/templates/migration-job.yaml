@@ -26,9 +26,9 @@ spec:
       containers:
       - name: {{ .Chart.Name }}
         {{- if .Values.migration.image }}
-        image: "{{ .Values.migration.image.repository | default .Values.image.repository }}:{{ .Values.migration.image.tag | default .Values.image.tag | default .Chart.AppVersion }}"
+        image: "{{ default .Values.image.repository .Values.migration.image.repository }}:{{ default .Chart.AppVersion default .Values.image.tag .Values.migration.image.tag }}"
         {{- else }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
         {{- end }}
         {{- with .Values.migration.command }}
         command:
@@ -38,11 +38,17 @@ spec:
         args:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        {{- if .Values.migration.env }}
         env:
-        {{- range $k, $v := .Values.migration.env }}
+        {{- if .Values.env }}
+        {{- range $k, $v := .Values.env }}
           - name: {{ $k | trim }}
             value: {{ $v | trim | quote }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.migration.env }}
+        {{- range $l, $w := .Values.migration.env }}
+          - name: {{ $l | trim }}
+            value: {{ $w | trim | quote }}
         {{- end }}
         {{- end }}
         {{- if .Values.migration.resources }}
