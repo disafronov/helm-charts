@@ -31,6 +31,28 @@ entries:
     urls:
     - https://github.com/DmitriySafronov/helm-charts/releases/download/default-0.1.1/default-0.1.1.tgz
     version: 0.1.1
+  pgo:
+  - apiVersion: v2
+    appVersion: 5.3.1
+    created: "2023-05-04T14:11:51.224585552Z"
+    description: Installer for PGO, the open source Postgres Operator from Crunchy Data
+    digest: 8e53f1b836b88de1fea801d44ac1a7ed73a50dfc558380325302904433232e90
+    name: pgo
+    type: application
+    urls:
+    - https://github.com/DmitriySafronov/helm-charts/releases/download/pgo-5.3.1/pgo-5.3.1.tgz
+    version: 5.3.1
+  postgrescluster:
+  - apiVersion: v2
+    appVersion: 5.3.1
+    created: "2023-05-04T14:11:51.380280807Z"
+    description: A Helm chart for Kubernetes
+    digest: e24bbf2ba461f00d0f576f74588daa7ddb28461874d231a358d54dc9158cb73d
+    name: postgrescluster
+    type: application
+    urls:
+    - https://github.com/DmitriySafronov/helm-charts/releases/download/postgrescluster-5.3.1/postgrescluster-5.3.1.tgz
+    version: 5.3.1
   rails-app:
   - apiVersion: v2
     appVersion: latest
