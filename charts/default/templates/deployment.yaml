@@ -68,7 +68,6 @@ spec:
               protocol: {{ default "TCP" $v | trim }}
           {{- end }}
           {{- end }}
-          {{- if not (and .Values.containerPort (eq .Values.containerPortProtocol "UDP")) }}
           {{- with .Values.startupProbe }}
           startupProbe:
             {{- toYaml . | nindent 12 }}
@@ -80,7 +79,6 @@ spec:
           {{- with .Values.readinessProbe }}
           readinessProbe:
             {{- toYaml . | nindent 12 }}
-          {{- end }}
           {{- end }}
           {{- end }}
           {{- if .Values.env }}
