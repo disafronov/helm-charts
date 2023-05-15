@@ -61,22 +61,8 @@ startupProbe:
   initialDelaySeconds: 5
   periodSeconds: 5
   failureThreshold: 35
-livenessProbe:
-  httpGet:
-    path: /
-    port: default
-  initialDelaySeconds: 5
-  periodSeconds: 10
-  failureThreshold: 4
-  timeoutSeconds: 4
-readinessProbe:
-  httpGet:
-    path: /
-    port: default
-  initialDelaySeconds: 10
-  periodSeconds: 5
-  failureThreshold: 3
-  timeoutSeconds: 2
+livenessProbe: {}
+readinessProbe: {}
 
 env: {}
 
