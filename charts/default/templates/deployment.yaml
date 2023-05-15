@@ -35,18 +35,22 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "default.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- end }}
       {{- with .Values.initContainers }}
       initContainers:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
+          {{- with .Values.SecurityContext }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- end }}
+          image: "{{ required "A valid image repository is required!" .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
+          imagePullPolicy: {{ "IfNotPresent" .Values.image.pullPolicy }}
           {{- with .Values.command }}
           command:
             {{- toYaml . | nindent 12 }}
@@ -88,8 +92,10 @@ spec:
               value: {{ $v | trim | quote }}
           {{- end }}
           {{- end }}
+          {{- with .Values.resources }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
           {{- if .Values.tmp.enabled }}
           volumeMounts:
             - mountPath: {{ default "/tmp" .Values.tmp.mountPath }}
