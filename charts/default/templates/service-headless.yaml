@@ -10,9 +10,9 @@ spec:
   clusterIP: None
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: default
       protocol: TCP
-      name: http
+      name: default
   selector:
     {{- include "default.selectorLabels" . | nindent 4 }}
 {{- end }}

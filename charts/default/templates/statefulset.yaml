@@ -57,7 +57,7 @@ spec:
           {{- if or .Values.containerPort .Values.ports }}
           ports:
           {{- if .Values.containerPort }}
-            - name: http
+            - name: default
               containerPort: {{ .Values.containerPort }}
               protocol: TCP
           {{- end }}

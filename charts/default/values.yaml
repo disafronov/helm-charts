@@ -86,14 +86,14 @@ affinity: {}
 # Probes
 startupProbe:
   tcpSocket:
-    port: http
+    port: default
   initialDelaySeconds: 5
   periodSeconds: 5
   failureThreshold: 35
 livenessProbe:
   httpGet:
     path: /
-    port: http
+    port: default
   initialDelaySeconds: 5
   periodSeconds: 10
   failureThreshold: 4
@@ -101,7 +101,7 @@ livenessProbe:
 readinessProbe:
   httpGet:
     path: /
-    port: http
+    port: default
   initialDelaySeconds: 10
   periodSeconds: 5
   failureThreshold: 3
