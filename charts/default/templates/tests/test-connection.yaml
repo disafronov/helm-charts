@@ -1,4 +1,4 @@
-{{- if and (or .Values.ports) (or (not .Values.deploymentType) (ne .Values.deploymentType "StatefulSet")) }}
+{{- if and .Values.containerPort) (or (not .Values.deploymentType) (ne .Values.deploymentType "StatefulSet")) }}
 apiVersion: v1
 kind: Pod
 metadata:
