@@ -56,14 +56,24 @@ image:
 
 # ports: []
 
-startupProbe:
-  tcpSocket:
-    port: default
-  initialDelaySeconds: 5
-  periodSeconds: 5
-  failureThreshold: 35
-livenessProbe: {}
-readinessProbe: {}
+# startupProbe:
+#   tcpSocket:
+#     port: default
+#   initialDelaySeconds: 10
+#   failureThreshold: 29
+# livenessProbe:
+#   httpGet:
+#     path: /
+#     port: default
+#   initialDelaySeconds: 30
+#   failureThreshold: 5
+#   timeoutSeconds: 5
+# readinessProbe: {}
+#   httpGet:
+#     path: /
+#     port: default
+#   failureThreshold: 3
+#   periodSeconds: 3
 
 env: {}
 
