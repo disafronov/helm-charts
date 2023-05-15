@@ -1,3 +1,4 @@
+{{- if and .Values.containerPort (or (not .Values.deploymentType) (ne .Values.deploymentType "StatefulSet")) }}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -11,5 +12,6 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "default.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "default.fullname" . }}:{{ default 80 .Values.service.port }}']
   restartPolicy: Never
+{{- end }}

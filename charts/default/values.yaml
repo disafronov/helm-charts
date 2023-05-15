@@ -24,7 +24,7 @@ autoscaling: {}
   # targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-replicaCount: 1
+# replicaCount: 1
 
 podAnnotations: {}
 
@@ -68,7 +68,7 @@ image:
 #   initialDelaySeconds: 30
 #   failureThreshold: 5
 #   timeoutSeconds: 5
-# readinessProbe: {}
+# readinessProbe:
 #   httpGet:
 #     path: /
 #     port: default
@@ -108,8 +108,9 @@ affinity: {}
 tolerations: []
 
 
-service:
-  type: ClusterIP
+# service:
+#   type: ClusterIP
+#   port: 80
 
 
 ingress: {}
