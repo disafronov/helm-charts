@@ -1,4 +1,4 @@
-{{- if or (not .Values.deploymentType) (ne .Values.deploymentType "StatefulSet") }}
+{{- if and (or .Values.containerPort .Values.ports) (or (not .Values.deploymentType) (ne .Values.deploymentType "StatefulSet")) }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -8,10 +8,19 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
+  {{- if .Values.containerPort }}
+    - port: {{ default 80 .Values.service.port }}
       targetPort: default
       protocol: TCP
       name: default
+  {{- end }}
+  {{- if .Values.ports }}
+  {{- range $k, $v := .Values.ports }}
+    - port: {{ $k | trim }}
+      targetPort: {{ $k | trim }}
+      protocol: {{ default "TCP" $v | trim }}
+  {{- end }}
+  {{- end }}
   selector:
     {{- include "default.selectorLabels" . | nindent 4 }}
 {{- end }}
