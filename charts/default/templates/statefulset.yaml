@@ -59,7 +59,7 @@ spec:
           {{- if .Values.containerPort }}
             - name: default
               containerPort: {{ .Values.containerPort }}
-              protocol: TCP
+              protocol: {{ default "TCP" .Values.containerPortProtocol }}
           {{- end }}
           {{- if .Values.ports }}
           {{- range $k, $v := .Values.ports }}

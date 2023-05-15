@@ -12,7 +12,7 @@ spec:
   {{- if .Values.containerPort }}
     - port: {{ default 80 .Values.service.port }}
       targetPort: default
-      protocol: TCP
+      protocol: {{ default "TCP" .Values.containerPortProtocol }}
       name: default
   {{- end }}
   {{- if .Values.ports }}
