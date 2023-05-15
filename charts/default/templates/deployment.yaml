@@ -90,9 +90,11 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- if .Values.tmp.enabled }}
           volumeMounts:
-            - mountPath: /tmp
+            - mountPath: {{ default "/tmp" .Values.tmp.mountPath }}
               name: tmp
+          {{- end }}
         {{- with .Values.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -108,8 +110,10 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.tmp.enabled }}
       volumes:
         - name: tmp
           emptyDir:
-            sizeLimit: {{ default "1Gi" .Values.tmpSize }}
+            sizeLimit: {{ default "1Gi" .Values.tmp.size }}
+      {{- end }}
 {{- end }}

@@ -89,11 +89,17 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- if or .Values.tmp.enabled .Values.pv.enabled }}
           volumeMounts:
-            - mountPath: /tmp
+            {{- if .Values.tmp.enabled }}
+            - mountPath: {{ default "/tmp" .Values.tmp.mountPath }}
               name: tmp
+            {{- end }}
+            {{- if .Values.pv.enabled }}
             - name: {{ .Chart.Name }}
-              mountPath: {{ default "/srv" .Values.pvMount }}
+              mountPath: {{ default "/srv" .Values.pv.mountPath }}
+            {{- end }}
+          {{- end }}
         {{- with .Values.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -109,10 +115,13 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.tmp.enabled }}
       volumes:
         - name: tmp
           emptyDir:
-            sizeLimit: {{ default "1Gi" .Values.tmpSize }}
+            sizeLimit: {{ default "1Gi" .Values.tmp.size }}
+      {{- end }}
+  {{- if .Values.pv.enabled }}
   volumeClaimTemplates:
     - metadata:
         name: {{ .Chart.Name }}
@@ -120,5 +129,6 @@ spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
-            storage: {{ default "1Gi" .Values.pvSize }}
+            storage: {{ default "1Gi" .Values.pv.size }}
+  {{- end }}
 {{- end }}
