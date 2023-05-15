@@ -1,4 +1,7 @@
 {{- if and (or .Values.containerPort .Values.ports) (or (not .Values.deploymentType) (ne .Values.deploymentType "StatefulSet")) }}
+{{- $service := default dict .Values.service -}}
+{{- $svcPort := default 80 $service.port -}}
+{{- $svcType := default "ClusterIP" $service.type -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -6,10 +9,10 @@ metadata:
   labels:
     {{- include "default.labels" . | nindent 4 }}
 spec:
-  type: {{ default "ClusterIP" .Values.service.type }}
+  type: {{ $svcType }}
   ports:
   {{- if .Values.containerPort }}
-    - port: {{ default 80 .Values.service.port }}
+    - port: {{ $svcPort }}
       targetPort: default
       protocol: {{ default "TCP" .Values.containerPortProtocol }}
       name: default
