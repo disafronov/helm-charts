@@ -9,7 +9,7 @@ metadata:
     {{- include "default.labels" . | nindent 4 }}
 spec:
   type: {{ $svcType }}
-  {{- include "default.common-spec_container-ports" . | nindent 2 }}
+  {{- include "default.common-spec_service-ports" . | nindent 2 }}
   selector:
     {{- include "default.selectorLabels" . | nindent 4 }}
 {{- end }}
