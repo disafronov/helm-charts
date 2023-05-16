@@ -1,6 +1,5 @@
 {{- if and (or .Values.containerPort .Values.ports) (or (not .Values.deploymentType) (ne .Values.deploymentType "StatefulSet")) }}
 {{- $service := default dict .Values.service -}}
-{{- $svcPort := default 80 $service.port -}}
 {{- $svcType := default "ClusterIP" $service.type -}}
 apiVersion: v1
 kind: Service
@@ -10,20 +9,7 @@ metadata:
     {{- include "default.labels" . | nindent 4 }}
 spec:
   type: {{ $svcType }}
-  ports:
-  {{- if .Values.containerPort }}
-    - port: {{ $svcPort }}
-      targetPort: default
-      protocol: {{ default "TCP" .Values.containerPortProtocol }}
-      name: default
-  {{- end }}
-  {{- if .Values.ports }}
-  {{- range $k, $v := .Values.ports }}
-    - port: {{ $k | trim }}
-      targetPort: {{ $k | trim }}
-      protocol: {{ default "TCP" $v | trim }}
-  {{- end }}
-  {{- end }}
+  {{- include "default.common-spec_container-ports" . | nindent 2 }}
   selector:
     {{- include "default.selectorLabels" . | nindent 4 }}
 {{- end }}
