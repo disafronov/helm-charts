@@ -1,5 +1,4 @@
 {{- if and .Values.migration .Values.migration.enabled }}
----
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -38,6 +37,7 @@ spec:
         args:
           {{- toYaml . | nindent 10 }}
         {{- end }}
+        {{- if or .Values.env .Values.migration.env }}
         env:
         {{- if .Values.env }}
         {{- range $k, $v := .Values.env }}
@@ -49,6 +49,7 @@ spec:
         {{- range $l, $w := .Values.migration.env }}
           - name: {{ $l | trim }}
             value: {{ $w | trim | quote }}
+        {{- end }}
         {{- end }}
         {{- end }}
         {{- if .Values.migration.resources }}

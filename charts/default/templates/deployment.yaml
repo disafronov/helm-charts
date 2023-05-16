@@ -18,117 +18,10 @@ spec:
       maxUnavailable: {{ default 0 .Values.rollingUpdate.maxUnavailable }}
     {{- end }}
   {{- end }}
-  selector:
-    matchLabels:
-      {{- include "default.selectorLabels" . | nindent 6 }}
-  template:
-    metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      labels:
-        {{- include "default.selectorLabels" . | nindent 8 }}
-    spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "default.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{- with .Values.initContainers }}
-      initContainers:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+  {{- include "default.common-spec_pod" . | nindent 2 }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ required "A valid image repository is required!" .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
-          imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
-          {{- with .Values.command }}
-          command:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.args }}
-          args:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- if or .Values.containerPort .Values.ports }}
-          ports:
-          {{- if .Values.containerPort }}
-            - name: default
-              containerPort: {{ .Values.containerPort }}
-              protocol: {{ default "TCP" .Values.containerPortProtocol }}
-          {{- end }}
-          {{- if .Values.ports }}
-          {{- range $k, $v := .Values.ports }}
-            - containerPort: {{ $k | trim }}
-              protocol: {{ default "TCP" $v | trim }}
-          {{- end }}
-          {{- end }}
-          {{- end }}
-          {{- if and (not .Values.startupProbe) .Values.containerPort (ne .Values.containerPortProtocol "UDP") }}
-          startupProbe:
-            tcpSocket:
-              port: default
-            initialDelaySeconds: 10
-            failureThreshold: 29
-          {{- end }}
-          {{- with .Values.startupProbe }}
-          startupProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- if and (not .Values.livenessProbe) .Values.containerPort (not .Values.containerPortProtocol) }}
-          livenessProbe:
-            httpGet:
-              path: /
-              port: default
-            initialDelaySeconds: 30
-            failureThreshold: 5
-            timeoutSeconds: 5
-          {{- end }}
-          {{- if and (not .Values.livenessProbe) .Values.containerPort (eq .Values.containerPortProtocol "TCP") }}
-          livenessProbe:
-            tcpSocket:
-              port: default
-            initialDelaySeconds: 30
-            failureThreshold: 5
-            timeoutSeconds: 5
-          {{- end }}
-          {{- with .Values.livenessProbe }}
-          livenessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- if and (not .Values.readinessProbe) .Values.containerPort (not .Values.containerPortProtocol) }}
-          readinessProbe:
-            httpGet:
-              path: /
-              port: default
-            failureThreshold: 3
-            periodSeconds: 3
-          {{- end }}
-          {{- if and (not .Values.readinessProbe) .Values.containerPort (eq .Values.containerPortProtocol "TCP") }}
-          readinessProbe:
-            tcpSocket:
-              port: default
-            failureThreshold: 3
-            periodSeconds: 3
-          {{- end }}
-          {{- with .Values.readinessProbe }}
-          readinessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- if .Values.env }}
-          env:
-          {{- range $k, $v := .Values.env }}
-            - name: {{ $k | trim }}
-              value: {{ $v | trim | quote }}
-          {{- end }}
-          {{- end }}
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+          {{- include "default.common-spec_container" . | nindent 10 }}
           {{- if .Values.tmp.enabled }}
           volumeMounts:
             - mountPath: {{ default "/tmp" .Values.tmp.mountPath }}
@@ -137,18 +30,6 @@ spec:
         {{- with .Values.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       {{- if .Values.tmp.enabled }}
       volumes:
         - name: tmp
