@@ -8,12 +8,12 @@ ports:
 {{- if .Values.containerPort }}
   - name: default
     containerPort: {{ .Values.containerPort }}
-    protocol: {{ default "TCP" .Values.containerPortProtocol }}
+    protocol: {{ default "TCP" .Values.containerPortProtocol | trim | upper }}
 {{- end }}
 {{- if .Values.ports }}
 {{- range $k, $v := .Values.ports }}
-  - containerPort: {{ $k | trim }}
-    protocol: {{ default "TCP" $v | trim }}
+  - containerPort: {{ $k | trim | lower }}
+    protocol: {{ default "TCP" $v | trim | upper }}
 {{- end }}
 {{- end }}
 {{- end }}
