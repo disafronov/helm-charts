@@ -9,15 +9,15 @@ ports:
 {{- if .Values.containerPort }}
   - port: {{ $svcPort }}
     targetPort: default
-    protocol: {{ default "TCP" .Values.containerPortProtocol }}
+    protocol: {{ default "TCP" .Values.containerPortProtocol | trim | upper }}
     name: default
 {{- end }}
 {{- if .Values.ports }}
 {{- range $k, $v := .Values.ports }}
-  - port: {{ $k | trim }}
-    targetPort: {{ $k | trim }}
-    protocol: {{ default "TCP" $v | trim }}
-    name: default-{{ $k | trim }}-{{ default "TCP" $v | trim }}
+  - port: {{ $k | trim | lower }}
+    targetPort: {{ $k | trim | lower }}
+    protocol: {{ default "TCP" $v | trim | upper }}
+    name: default-{{ $k | trim | lower }}-{{ default "TCP" $v | trim | lower }}
 {{- end }}
 {{- end }}
 {{- end }}
