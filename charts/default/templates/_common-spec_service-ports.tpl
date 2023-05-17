@@ -17,6 +17,7 @@ ports:
   - port: {{ $k | trim }}
     targetPort: {{ $k | trim }}
     protocol: {{ default "TCP" $v | trim }}
+    name: default-{{ $k | trim }}-{{ default "TCP" $v | trim }}
 {{- end }}
 {{- end }}
 {{- end }}
