@@ -22,18 +22,13 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           {{- include "default.common-spec_container" . | nindent 10 }}
-          {{- if .Values.tmp.enabled }}
           volumeMounts:
-            - mountPath: {{ default "/tmp" .Values.tmp.mountPath }}
+            - mountPath: {{ default "/tmp" .Values.tmpMountPath }}
               name: tmp
-          {{- end }}
         {{- with .Values.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-      {{- if .Values.tmp.enabled }}
       volumes:
         - name: tmp
           emptyDir:
-            sizeLimit: {{ default "1Gi" .Values.tmp.size }}
-      {{- end }}
 {{- end }}
