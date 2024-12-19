@@ -37,9 +37,9 @@ spec:
       secretName: {{ .secretName }}
     {{- end }}
   {{- end }}
-  {{- if .Values.ingress.hosts }}
+  {{- if .Values.ingress.rules }}
   rules:
-    {{- range .Values.ingress.hosts }}
+    {{- range .Values.ingress.rules }}
     - host: {{ .host | quote }}
       http:
         paths:
