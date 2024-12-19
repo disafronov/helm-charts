@@ -3,6 +3,16 @@ entries:
   default:
   - apiVersion: v2
     appVersion: latest
+    created: "2024-12-19T14:46:18.344910355Z"
+    description: A Helm chart for Kubernetes
+    digest: cdabdd9694e22cef9511c88d93317c0c81d4867bc3fedcf6f6eb3e56ffd6f88d
+    name: default
+    type: application
+    urls:
+    - https://github.com/dmitriysafronov/helm-charts/releases/download/default-3.1.0/default-3.1.0.tgz
+    version: 3.1.0
+  - apiVersion: v2
+    appVersion: latest
     created: "2024-12-19T12:58:05.708531695Z"
     description: A Helm chart for Kubernetes
     digest: 7789b8e91942338a409de2101c6282128c38ae804db23b1ad35ddb16eba984e5
