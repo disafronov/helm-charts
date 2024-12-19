@@ -61,4 +61,8 @@ spec:
           {{- end }}
     {{- end }}
   {{- end }}
+  {{- with .Values.ingress.defaultBackend }}
+  defaultBackend:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- end }}
