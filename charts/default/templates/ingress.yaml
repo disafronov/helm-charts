@@ -40,8 +40,7 @@ spec:
   {{- if .Values.ingress.rules }}
   rules:
     {{- range .Values.ingress.rules }}
-    - host: {{ .host }}
-      http:
+    - http:
         paths:
           {{- range .paths }}
           - path: {{ .path }}
@@ -59,6 +58,9 @@ spec:
               servicePort: {{ $svcPort }}
               {{- end }}
           {{- end }}
+      {{- if .host }}
+      host: {{ .host }}
+      {{- end }}
     {{- end }}
   {{- end }}
   {{- with .Values.ingress.defaultBackend }}
