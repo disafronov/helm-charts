@@ -37,6 +37,7 @@ spec:
       secretName: {{ .secretName }}
     {{- end }}
   {{- end }}
+  {{- if .Values.ingress.rules }}
   rules:
     {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
@@ -59,4 +60,5 @@ spec:
               {{- end }}
           {{- end }}
     {{- end }}
+  {{- end }}
 {{- end }}
