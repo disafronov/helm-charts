@@ -14,7 +14,7 @@ env:
 {{- if (kindIs "string" $env) }}
     value: {{ $env | quote }}
 {{- else if (kindIs "map" $env) }}
-{{ $env | toYaml | indent 4 }}
+    valueFrom: {{ $env | toYaml | nindent 6 }}
 {{- else }}
     value: ""
 {{- end }}
