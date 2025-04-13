@@ -13,10 +13,8 @@ env:
   - name: {{ $name }}
 {{- if (kindIs "string" $env) }}
     value: {{ $env | quote }}
-{{- else if and (kindIs "map" $env) (hasKey $env "value") }}
-    value: {{ $env.value | quote }}
-{{- else if and (kindIs "map" $env) (hasKey $env "valueFrom") }}
-    valueFrom: {{ $env.valueFrom | toYaml | nindent 6 }}
+{{- else if (kindIs "map" $env) }}
+{{ $env | toYaml | indent 4 }}
 {{- else }}
     value: ""
 {{- end }}
