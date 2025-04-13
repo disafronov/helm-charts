@@ -23,27 +23,27 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: {{ .Chart.Name }}
-        {{- if .Values.migration.image }}
-        image: "{{ default .Values.image.repository .Values.migration.image.repository }}:{{ default .Chart.AppVersion default .Values.image.tag .Values.migration.image.tag }}"
-        {{- else }}
-        image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
+        - name: {{ .Chart.Name }}
+          {{- if .Values.migration.image }}
+          image: "{{ default .Values.image.repository .Values.migration.image.repository }}:{{ default .Chart.AppVersion default .Values.image.tag .Values.migration.image.tag }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
+          {{- end }}
+          {{- with .Values.migration.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.migration.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- include "default.common-spec_container-env" . | indent 10 }}
+          {{- if .Values.migration.resources }}
+          resources:
+            {{- toYaml .Values.migration.resources | nindent 12 }}
+          {{- end }}
+        {{- with .Values.migration.sidecars }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
-        {{- with .Values.migration.command }}
-        command:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
-        {{- with .Values.migration.args }}
-        args:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
-        {{- include "default.common-spec_container-env" . }}
-        {{- if .Values.migration.resources }}
-        resources:
-          {{- toYaml .Values.migration.resources | nindent 10 }}
-        {{- end }}
-      {{- with .Values.migration.sidecars }}
-      {{- toYaml . | nindent 6 }}
-      {{- end }}
       restartPolicy: "Never"
 {{- end }}
