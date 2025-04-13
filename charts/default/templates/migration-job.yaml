@@ -37,21 +37,7 @@ spec:
         args:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        {{- if or .Values.env .Values.migration.env }}
-        env:
-        {{- if .Values.env }}
-        {{- range $k, $v := .Values.env }}
-          - name: {{ $k | trim }}
-            value: {{ $v | trim | quote }}
-        {{- end }}
-        {{- end }}
-        {{- if .Values.migration.env }}
-        {{- range $l, $w := .Values.migration.env }}
-          - name: {{ $l | trim }}
-            value: {{ $w | trim | quote }}
-        {{- end }}
-        {{- end }}
-        {{- end }}
+        {{- include "default.common-spec_container-env" . }}
         {{- if .Values.migration.resources }}
         resources:
           {{- toYaml .Values.migration.resources | nindent 10 }}
