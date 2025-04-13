@@ -45,5 +45,5 @@ spec:
       {{- with .Values.migration.sidecars }}
       {{- toYaml . | nindent 6 }}
       {{- end }}
-      restartPolicy: Never
+      restartPolicy: "Never"
 {{- end }}
