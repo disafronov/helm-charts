@@ -1,3 +1,3 @@
 # helm-charts
 
-[https://dmitriysafronov.github.io/helm-charts/](https://dmitriysafronov.github.io/helm-charts/)
+[https://disafronov.github.io/helm-charts/](https://disafronov.github.io/helm-charts/)
