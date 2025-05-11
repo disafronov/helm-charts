@@ -6,11 +6,7 @@
 {{- if .Values.env }}
 env:
 {{- range $field, $env := .Values.env }}
-{{- $name := $field }}
-{{- if and (kindIs "map" $env) (hasKey $env "name") }}
-  {{- $name = $env.name }}
-{{- end }}
-  - name: {{ $name }}
+  - name: {{ $field }}
 {{- if (kindIs "string" $env) }}
     value: {{ $env | quote }}
 {{- else if (kindIs "map" $env) }}
