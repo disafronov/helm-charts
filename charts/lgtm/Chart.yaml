@@ -44,7 +44,7 @@ keywords:
 - logs
 maintainers:
 - name: disafronov
-name: lgtp
+name: lgtm
 sources:
 - https://disafronov.github.io/helm-charts
 - https://github.com/grafana/grafana
