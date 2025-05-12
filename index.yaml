@@ -451,6 +451,65 @@ entries:
     urls:
     - https://github.com/DmitriySafronov/helm-charts/releases/download/default-0.1.1/default-0.1.1.tgz
     version: 0.1.1
+  lgtm:
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/links: |
+        - name: Chart Source
+          url: https://github.com/disafronov/helm-charts
+        - name: Grafana
+          url: https://github.com/grafana/grafana
+        - name: Loki
+          url: https://github.com/grafana/loki
+        - name: Mimir
+          url: https://github.com/grafana/mimir
+        - name: Tempo
+          url: https://github.com/grafana/tempo
+    apiVersion: v2
+    appVersion: latest
+    created: "2025-05-12T17:54:54.050918198Z"
+    dependencies:
+    - alias: grafana
+      condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: ~9.0.0
+    - alias: loki
+      condition: loki.enabled
+      name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: ~6.29.0
+    - alias: mimir
+      condition: mimir.enabled
+      name: mimir-distributed
+      repository: https://grafana.github.io/helm-charts
+      version: ~5.7.0
+    - alias: tempo
+      condition: tempo.enabled
+      name: tempo
+      repository: https://grafana.github.io/helm-charts
+      version: ~1.21.1
+    description: Umbrella chart for a custom Loki, Grafana, Tempo and Mimir (Prometheus in future) stack. NOT FOR PRODUCTION!
+    digest: e18dd0679a4370f8d4e709d3039b20d17c6cd48fb78ed797be2728d93a289c90
+    home: https://github.com/disafronov/helm-charts/tree/master/charts/lgtp
+    keywords:
+    - monitoring
+    - traces
+    - metrics
+    - logs
+    maintainers:
+    - name: disafronov
+    name: lgtm
+    sources:
+    - https://disafronov.github.io/helm-charts
+    - https://github.com/grafana/grafana
+    - https://github.com/grafana/loki
+    - https://github.com/grafana/mimir
+    - https://github.com/grafana/tempo
+    type: application
+    urls:
+    - https://github.com/disafronov/helm-charts/releases/download/lgtm-0.0.1/lgtm-0.0.1.tgz
+    version: 0.0.1
   pgo:
   - apiVersion: v2
     appVersion: 5.3.1
