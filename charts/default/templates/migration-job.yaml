@@ -42,6 +42,7 @@ spec:
           resources:
             {{- toYaml .Values.migration.resources | nindent 12 }}
           {{- end }}
+          tty: {{ .Values.tty.enabled | default false }}
         {{- with .Values.migration.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
