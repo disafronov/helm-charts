@@ -20,4 +20,5 @@ args:
 {{- include "default.common-spec_container-env" . }}
 {{- include "default.common-spec_container-ports" . }}
 {{- include "default.common-spec_container-probes" . }}
+tty: {{ .Values.tty.enabled | default false }}
 {{- end }}
