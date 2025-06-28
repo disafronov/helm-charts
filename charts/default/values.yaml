@@ -99,6 +99,9 @@ affinity: {}
 
 tolerations: []
 
+tty:
+  enabled: false
+
 # service:
 #   type: ClusterIP
 #   port: 80
