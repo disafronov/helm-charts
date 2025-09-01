@@ -530,6 +530,17 @@ entries:
     urls:
     - https://github.com/disafronov/helm-charts/releases/download/lgtm-0.0.1/lgtm-0.0.1.tgz
     version: 0.0.1
+  logstash-exporter:
+  - apiVersion: v2
+    appVersion: 1.6.1
+    created: "2025-09-01T08:56:45.470621155Z"
+    description: Prometheus exporter for Logstash written in Go
+    digest: 75cbd48a0649001eb9c9abce0e13f02e9679d3ca1bb9a938bffd7eea15d419a7
+    name: logstash-exporter
+    type: application
+    urls:
+    - https://github.com/disafronov/helm-charts/releases/download/logstash-exporter-1.6.1/logstash-exporter-1.6.1.tgz
+    version: 1.6.1
   pgo:
   - apiVersion: v2
     appVersion: 5.3.1
