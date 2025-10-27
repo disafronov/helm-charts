@@ -1,0 +1,5 @@
+{{- $hasPersistentPods := or (eq .Values.deploymentType "Deployment") (eq .Values.deploymentType "StatefulSet") -}}
+{{- $hasCronjob := and .Values.cronjob .Values.cronjob.enabled -}}
+{{- if not (or $hasPersistentPods $hasCronjob) }}
+{{- fail "At least one component must be enabled. Please enable: Deployment/StatefulSet and/or CronJob" }}
+{{- end }}

@@ -1,0 +1,57 @@
+{{- if and .Values.cronjob .Values.cronjob.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "default.cronjob-name" . }}
+spec:
+  schedule: {{ required "cronjob.schedule is required" .Values.cronjob.schedule | quote }}
+  {{- if .Values.cronjob.concurrencyPolicy }}
+  concurrencyPolicy: {{ .Values.cronjob.concurrencyPolicy }}
+  {{- end }}
+  {{- if .Values.cronjob.successfulJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ .Values.cronjob.successfulJobsHistoryLimit }}
+  {{- end }}
+  {{- if .Values.cronjob.failedJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.cronjob.failedJobsHistoryLimit }}
+  {{- end }}
+  {{- if .Values.cronjob.startingDeadlineSeconds }}
+  startingDeadlineSeconds: {{ .Values.cronjob.startingDeadlineSeconds }}
+  {{- end }}
+  jobTemplate:
+    spec:
+      {{- if .Values.cronjob.backoffLimit }}
+      backoffLimit: {{ .Values.cronjob.backoffLimit }}
+      {{- end }}
+      {{- if .Values.cronjob.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ .Values.cronjob.activeDeadlineSeconds }}
+      {{- end }}
+      {{- if .Values.cronjob.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.cronjob.ttlSecondsAfterFinished }}
+      {{- end }}
+      template:
+        spec:
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          containers:
+            - name: {{ .Chart.Name }}
+              {{- include "default.common-spec_container" . | nindent 14 }}
+              {{- if .Values.cronjob.resources }}
+              resources:
+                {{- toYaml .Values.cronjob.resources | nindent 16 }}
+              {{- end }}
+              {{- with .Values.cronjob.command }}
+              command:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              {{- with .Values.cronjob.args }}
+              args:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+          {{- with .Values.cronjob.sidecars }}
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+          restartPolicy: "Never"
+{{- end }}
+
