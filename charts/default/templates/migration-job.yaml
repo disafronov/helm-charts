@@ -24,11 +24,8 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          {{- if .Values.migration.image }}
-          image: "{{ default .Values.image.repository .Values.migration.image.repository }}:{{ default .Chart.AppVersion default .Values.image.tag .Values.migration.image.tag }}"
-          {{- else }}
-          image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
-          {{- end }}
+          image: "{{ required "A valid image repository is required!" .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
+          imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
           {{- with .Values.migration.command }}
           command:
             {{- toYaml . | nindent 12 }}
