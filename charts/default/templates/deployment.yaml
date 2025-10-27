@@ -25,7 +25,7 @@ spec:
   {{- include "default.common-spec_pod" . | nindent 2 }}
       containers:
         - name: {{ .Chart.Name }}
-          {{- include "default.common-spec_container" . | nindent 10 }}
+          {{- include "default.common-spec_container_deployments" . | nindent 10 }}
           volumeMounts:
             - name: tmp
               mountPath: {{ default "/tmp" .Values.tmpMountPath }}
