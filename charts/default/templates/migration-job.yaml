@@ -24,8 +24,11 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ required "A valid image repository is required!" .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
-          imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
+          {{- include "default.common-spec_container" . | nindent 10 }}
+          {{- if .Values.migration.resources }}
+          resources:
+            {{- toYaml .Values.migration.resources | nindent 12 }}
+          {{- end }}
           {{- with .Values.migration.command }}
           command:
             {{- toYaml . | nindent 12 }}
@@ -34,12 +37,6 @@ spec:
           args:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- include "default.common-spec_container-env" . | indent 10 }}
-          {{- if .Values.migration.resources }}
-          resources:
-            {{- toYaml .Values.migration.resources | nindent 12 }}
-          {{- end }}
-          tty: {{ .Values.tty.enabled | default false }}
         {{- with .Values.migration.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
