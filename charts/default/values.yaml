@@ -121,3 +121,39 @@ ingress: {}
   # #  - secretName: chart-example-tls
   # #    hosts:
   # #      - chart-example.local
+
+# migration:
+#   enabled: true
+#   backoffLimit: 3
+#   activeDeadlineSeconds: 3600
+#   ttlSecondsAfterFinished: 86400
+#   # resources:
+#   #   limits:
+#   #     cpu: 500m
+#   #     memory: 512Mi
+#   #   requests:
+#   #     cpu: 200m
+#   #     memory: 256Mi
+#   # command: ["/bin/sh"]
+#   # args: ["-c", "migrate.sh"]
+#   # sidecars: []
+
+# cronjob:
+#   enabled: true
+#   schedule: "0 2 * * *"  # Run daily at 02:00 UTC
+#   concurrencyPolicy: Forbid
+#   successfulJobsHistoryLimit: 3
+#   failedJobsHistoryLimit: 1
+#   backoffLimit: 3
+#   activeDeadlineSeconds: 3600
+#   ttlSecondsAfterFinished: 86400
+#   # resources:
+#   #   limits:
+#   #     cpu: 500m
+#   #     memory: 512Mi
+#   #   requests:
+#   #     cpu: 200m
+#   #     memory: 256Mi
+#   # command: ["/bin/sh"]
+#   # args: ["-c", "backup.sh"]
+#   # sidecars: []
