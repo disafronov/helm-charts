@@ -1,4 +1,4 @@
-{{- if and .Values.containerPort (or (not .Values.deploymentType) (ne .Values.deploymentType "StatefulSet")) }}
+{{- if and .Values.containerPort (and .Values.deploymentType (eq .Values.deploymentType "Deployment")) }}
 {{- $service := default dict .Values.service -}}
 {{- $svcPort := default 80 $service.port -}}
 apiVersion: v1

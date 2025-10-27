@@ -1,4 +1,4 @@
-{{- if and (or .Values.containerPort .Values.ports) (or (not .Values.deploymentType) (ne .Values.deploymentType "StatefulSet")) }}
+{{- if and (or .Values.containerPort .Values.ports) (and .Values.deploymentType (eq .Values.deploymentType "Deployment")) }}
 {{- $service := default dict .Values.service -}}
 {{- $svcType := default "ClusterIP" $service.type -}}
 apiVersion: v1
