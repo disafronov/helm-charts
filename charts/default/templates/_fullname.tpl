@@ -8,12 +8,12 @@
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | lower | replace "_" "-" | replace "." "-" | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- $name := default .Chart.Name .Values.nameOverride | lower | replace "_" "-" | replace "." "-" }}
+{{- $baseName := default .Chart.Name .Values.nameOverride | lower | replace "_" "-" | replace "." "-" }}
 {{- $releaseName := .Release.Name | lower | replace "_" "-" | replace "." "-" }}
-{{- if contains $name $releaseName }}
+{{- if contains $baseName $releaseName }}
 {{- $releaseName | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- printf "%s-%s" $releaseName $name | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s" $releaseName $baseName | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 {{- end }}
