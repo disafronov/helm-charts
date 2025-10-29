@@ -1,3 +1,3 @@
-# rails-app
+# postgrescluster
 
 ⚠️ DEPRECATED
