@@ -49,8 +49,16 @@ spec:
               args:
                 {{- toYaml . | nindent 16 }}
               {{- end }}
+              {{- with .Values.cronjob.volumeMounts }}
+              volumeMounts:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
           {{- with .Values.cronjob.sidecars }}
           {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.cronjob.volumes }}
+          volumes:
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           restartPolicy: "Never"
 {{- end }}
