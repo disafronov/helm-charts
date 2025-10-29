@@ -10,7 +10,7 @@ metadata:
   labels:
     {{- include "default.labels" . | nindent 4 }}
 spec:
-  serviceName: {{ include "default.svc-headless-name" . }}
+  serviceName: {{ include "default.fullname" . }}
   replicas: {{ default 1 .Values.replicaCount }}
   {{- if .Values.deployStrategy }}
   strategy:
