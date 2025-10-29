@@ -137,6 +137,12 @@ ingress: {}
 #   # command: ["/bin/sh"]
 #   # args: ["-c", "migrate.sh"]
 #   # sidecars: []
+#   # volumes:
+#   #   - name: data
+#   #     emptyDir: {}
+#   # volumeMounts:
+#   #   - name: data
+#   #     mountPath: /data
 
 # cronjob:
 #   enabled: true
@@ -157,3 +163,9 @@ ingress: {}
 #   # command: ["/bin/sh"]
 #   # args: ["-c", "backup.sh"]
 #   # sidecars: []
+#   # volumes:
+#   #   - name: cache
+#   #     emptyDir: {}
+#   # volumeMounts:
+#   #   - name: cache
+#   #     mountPath: /cache
