@@ -5,7 +5,7 @@ metadata:
   name: {{ include "default.fullname" . }}
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade
-    # "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   {{- if .Values.migration.backoffLimit }}
   backoffLimit: {{ .Values.migration.backoffLimit }}
