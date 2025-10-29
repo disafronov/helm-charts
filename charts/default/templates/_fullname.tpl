@@ -6,13 +6,14 @@
 
 {{- define "default.fullname" -}}
 {{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- .Values.fullnameOverride | lower | replace "_" "-" | replace "." "-" | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- $name := default .Chart.Name .Values.nameOverride }}
-{{- if contains $name .Release.Name }}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- $baseName := default .Chart.Name .Values.nameOverride | lower | replace "_" "-" | replace "." "-" }}
+{{- $releaseName := .Release.Name | lower | replace "_" "-" | replace "." "-" }}
+{{- if contains $baseName $releaseName }}
+{{- $releaseName | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s" $releaseName $baseName | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 {{- end }}
