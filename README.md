@@ -6,7 +6,7 @@ Helm's [documentation](https://helm.sh/docs) to get started.
 Once Helm has been set up correctly, add the repo as follows:
 
 ```shell
-helm repo add dmitriysafronov https://dmitriysafronov.github.io/helm-charts
+helm repo add disafronov https://disafronov.github.io/helm-charts
 ```
 
 If you had already added this repo earlier, run `helm repo update` to retrieve
@@ -16,7 +16,7 @@ dmitriysafronov` to see the charts.
 To install the <chart-name> chart:
 
 ```shell
-helm install my-<chart-name> dmitriysafronov/<chart-name>
+helm install my-<chart-name> disafronov/<chart-name>
 ```
 
 To uninstall the chart:
@@ -26,4 +26,4 @@ helm delete my-<chart-name>
 
 ## Source
 
-[https://github.com/DmitriySafronov/helm-charts](https://github.com/DmitriySafronov/helm-charts)
+[https://github.com/disafronov/helm-charts](https://github.com/disafronov/helm-charts)
