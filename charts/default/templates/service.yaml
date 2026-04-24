@@ -5,6 +5,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "default.fullname" . }}
+  {{- with $service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   labels:
     {{- include "default.labels" . | nindent 4 }}
 spec:
