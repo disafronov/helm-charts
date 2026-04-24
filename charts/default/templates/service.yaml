@@ -1,10 +1,14 @@
 {{- if and (or .Values.containerPort .Values.ports) (and .Values.deploymentType (eq .Values.deploymentType "Deployment")) }}
-{{- $service := default dict .Values.service -}}
+{{- $service := default (dict) .Values.service -}}
 {{- $svcType := default "ClusterIP" $service.type -}}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "default.fullname" . }}
+  {{- with $service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   labels:
     {{- include "default.labels" . | nindent 4 }}
 spec:
