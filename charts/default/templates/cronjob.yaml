@@ -30,6 +30,7 @@ spec:
       {{- end }}
       template:
         spec:
+          serviceAccountName: {{ include "default.serviceAccountName" . }}
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
             {{- toYaml . | nindent 12 }}
